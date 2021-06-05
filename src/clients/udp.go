@@ -44,6 +44,6 @@ func main() {
 			fmt.Println(err)
 			return
 		}
-		fmt.Printf("Reply: %s\n", string(buffer[0:n]))
+		fmt.Printf("Estado del contador: %s\n", string(buffer[0:n]))
 	}
 }

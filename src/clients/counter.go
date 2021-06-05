@@ -21,12 +21,12 @@ func main() {
 		log.Fatal("Connection error: ", err)
 	}
 
-	client.Call("API.AddToCounter", 10, &reply)
-	client.Call("API.AddToCounter", 30, &reply)
-	client.Call("API.SubstractToCounter", 5, &reply)
-	client.Call("API.GetCounter", "", &reply)
+	client.Call("API.INCREMENT", 10, &reply)
+	client.Call("API.INCREMENT", 30, &reply)
+	client.Call("API.DECREMENT", 5, &reply)
+	client.Call("API.GET", "", &reply)
 	fmt.Println("Estado actual del contador", reply)
-	client.Call("API.Restart", "", &reply)
-	client.Call("API.GetCounter", "", &reply)
+	client.Call("API.RESET", "", &reply)
+	client.Call("API.GET", "", &reply)
 	fmt.Println("Estado actual del contador", reply)
 }
