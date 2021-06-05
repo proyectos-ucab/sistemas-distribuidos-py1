@@ -13,20 +13,22 @@ type API int
 var counter int
 
 // Consultar contador
-func (a *API) GetCounter(empty string, reply *int) error {
+func (a *API) GET(empty string, reply *int) error {
 	*reply = counter
+	fmt.Println("Contador en:", counter)
 	return nil
 }
 
 // Reiniciar el contador
-func (a *API) Restart(empty string, reply *int) error {
+func (a *API) RESET(empty string, reply *int) error {
 	counter = 0
 	*reply = counter
+	fmt.Println("Se reinicio el contador a 0")
 	return nil
 }
 
 // Agregar un numero al contador
-func (a *API) AddToCounter(number int, reply *int) error {
+func (a *API) INCREMENT(number int, reply *int) error {
 	counter += number
 	*reply = counter
 	fmt.Println("Se agregaron: ", number)
@@ -34,7 +36,7 @@ func (a *API) AddToCounter(number int, reply *int) error {
 }
 
 // Restar un numero al contador
-func (a *API) SubstractToCounter(number int, reply *int) error {
+func (a *API) DECREMENT(number int, reply *int) error {
 	counter -= number
 	*reply = counter
 	fmt.Println("Se restaron: ", number)

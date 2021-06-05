@@ -15,7 +15,7 @@ func main() {
 	var reply int
 
 	// Con esta linea tu te puedes conectar
-	client, err := rpc.DialHTTP("tcp", "localhost:4040")
+	client, err := rpc.DialHTTP("tcp", "localhost:4041")
 
 	if err != nil {
 		log.Fatal("Connection error: ", err)
