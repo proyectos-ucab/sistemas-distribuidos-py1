@@ -1,38 +1,34 @@
 package main
 
 import (
-        "bufio"
-        "fmt"
-        "net"
-        //"os"
-        "strings"
-        "time"
-		"strconv"
-		"net/rpc"
+	"bufio"
+	"fmt"
+	"net"
+	"net/rpc"
+	"strconv"
+	"strings"
 )
 
-type Response struct {
+type ResponseTCP struct {
 	command string
 	value   int64
 }
 
-func scanResponse(res string) *Response {
+func scanResponseTCP(res string) *ResponseTCP {
 
 	var stringValues []string
-	r := Response{command: "", value: 0}
+	r := ResponseTCP{command: "", value: 0}
 
 	if strings.Contains(res, "INCREMENT") {
 		stringValues = strings.Split(res, ",")
-		fmt.Println(stringValues[1])
 		r.command = "API." + stringValues[0]
-		value, _ := strconv.ParseInt(stringValues[1],10,64)
+		value, _ := strconv.ParseInt(stringValues[1], 10, 64)
 		r.value = value
-		fmt.Println(value)
 
 	} else if strings.Contains(res, "DECREMENT") {
 		stringValues = strings.Split(res, ",")
 		r.command = "API." + stringValues[0]
-		value, _ := strconv.ParseInt(stringValues[1],10,64)
+		value, _ := strconv.ParseInt(stringValues[1], 10, 64)
 		r.value = value
 
 	} else if strings.Contains(res, "GET") {
@@ -45,65 +41,59 @@ func scanResponse(res string) *Response {
 	return &r
 }
 
-
 func main() {
 
-		var reply int
-        //arguments := os.Args
-        /* if len(arguments) == 1 {
-                fmt.Println("Ingresa  el numero del puerto: ")
-                return
-        } */
+	var reply int
+	//arguments := os.Args
+	/* if len(arguments) == 1 {
+	        fmt.Println("Ingresa  el numero del puerto: ")
+	        return
+	} */
 
-        PORT := ":2020" //+ arguments[1]
-        l, err := net.Listen("tcp", PORT)
+	PORT := ":2020" //+ arguments[1]
+	l, err := net.Listen("tcp", PORT)
 
-		client, err := rpc.DialHTTP("tcp", "localhost:4040")
+	client, err := rpc.DialHTTP("tcp", "localhost:4040")
 
-        if err != nil {
-                fmt.Println(err)
-                return
-        }
-        defer l.Close()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer l.Close()
 
-		fmt.Println("[TCP Server]: Corriendo en el puerto: " + PORT)
+	fmt.Println("[TCP Server]: Corriendo en el puerto: " + PORT)
 
+	c, err := l.Accept()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 
-        c, err := l.Accept()
-        if err != nil {
-                fmt.Println(err)
-                return
-        }
+	for {
 
-        for {
-			
-                netData, err := bufio.NewReader(c).ReadString('\n')
-                if err != nil {
-                        fmt.Println(err)
-                        return
-                }
-                if strings.TrimSpace(string(netData)) == "STOP" {
-                        fmt.Println("Cerrando el Servidor TCP")
-                        return
-                }
+		netData, err := bufio.NewReader(c).ReadString('\n')
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
 
-				var res = scanResponse(string(netData))
+		if strings.TrimSpace(string(netData)) == "STOP" {
+			fmt.Println("Cerrando el Servidor TCP")
+			return
+		}
 
-				fmt.Println(res.command)
-				fmt.Println(res.value)
+		var res = scanResponseTCP(strings.TrimSpace(string(netData)))
 
-				if res.command != "" {
-					if res.value > 0 {
-						client.Call(res.command, res.value, &reply)
-					} else {
-						client.Call(res.command, "", &reply)
-					}
-				}
+		if res.command != "" {
+			if res.value > 0 {
+				client.Call(res.command, res.value, &reply)
+			} else {
+				client.Call(res.command, "", &reply)
+			}
+		}
 
-                fmt.Print("-> ", string(netData))
-                t := time.Now()
-                myTime := t.Format(time.RFC3339) + "\n"
-                c.Write([]byte(myTime))
-        }
+		data := "Estado del contador:" + strconv.Itoa(reply) + "\n"
+
+		c.Write([]byte(data))
+	}
 }
-    
