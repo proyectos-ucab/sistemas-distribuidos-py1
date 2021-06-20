@@ -43,6 +43,6 @@ Al igual que el servidor UPD utilza la libreria `net` para realiar la conexion e
 
 Se conecta automaticamente al puerto en el que esta corriendo el servidor, `2020`, para iniciarlo debemos cambiar el directorio a `./src/clients` y correr el comando `go run tcp.go`
 
-### Servidor de cuentas
+## Servidor de cuentas
 
 Es un servidor RCP que corre en el puerto `4040` el cual utiliza la sublibreria [net/rcp](https://golang.org/pkg/net/rpc/) para realizar la conexion, para iniciarlo debemos cambiar el directorio a `./src/servers` y correr el comando `go run counter.go`
