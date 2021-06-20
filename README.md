@@ -49,7 +49,7 @@ Es un servidor RCP que corre en el puerto `4040` el cual utiliza la sublibreria 
 
 ## Como interactuar con el servidor de cuentas a traves de un cliente (TCP o UDP)
 
-Tenemos cuatro operaciones basicas `INCREMENT`, `DECREMENT`, `GET`, `RESET
+Tenemos cuatro operaciones basicas `INCREMENT`, `DECREMENT`, `GET`, `RESET`
 
 * INCREMENT: Incrementa el contador en el servidor de cuentas con un valor dado, para suminstrar el valor debemos escribir el comando separado de una coma de la siguiente manera: `INCREMENT,10`
 
