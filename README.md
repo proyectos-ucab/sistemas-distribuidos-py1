@@ -46,3 +46,17 @@ Se conecta automaticamente al puerto en el que esta corriendo el servidor, `2020
 ## Servidor de cuentas
 
 Es un servidor RCP que corre en el puerto `4040` el cual utiliza la sublibreria [net/rcp](https://golang.org/pkg/net/rpc/) para realizar la conexion, para iniciarlo debemos cambiar el directorio a `./src/servers` y correr el comando `go run counter.go`
+
+## Como interactuar con el servidor de cuentas a traves de un cliente (TCP o UDP)
+
+Tenemos cuatro operaciones basicas `INCREMENT`, `DECREMENT`, `GET`, `RESET
+
+* INCREMENT: Incrementa el contador en el servidor de cuentas con un valor dado, para suminstrar el valor debemos escribir el comando separado de una coma de la siguiente manera: `INCREMENT,10`
+
+* DECREMENT: Decrementa el contador en el servidor de cuentas con un valor dado, para suministrar el valodr debemos escribir el comando separado de una coma de la siguiente manera: `DECREMENT,5`
+
+* GET: Obtiene el estado actual del contador
+
+* RESET: Reinicia el contador a 0
+
+Estos comand funcionan para ambos clientes 
